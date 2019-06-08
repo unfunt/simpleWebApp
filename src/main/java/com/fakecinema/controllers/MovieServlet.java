@@ -1,6 +1,7 @@
 package com.fakecinema.controllers;
 
 import com.fakecinema.dto.MovieDto;
+import com.fakecinema.services.MovieService;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -17,7 +18,8 @@ public class MovieServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        MovieDto movieDto = (new MovieDto()).getById(Integer.parseInt(req.getParameter("id")));
+        MovieService movieService = MovieService.getInstance();
+        MovieDto movieDto = movieService.getById(Integer.parseInt(req.getParameter("id")));
         req.setAttribute("movieDto", movieDto);
         req.getRequestDispatcher("/jsp/common/movie.jsp").forward(req, resp);
     }

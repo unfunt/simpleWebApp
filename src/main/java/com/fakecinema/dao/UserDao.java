@@ -126,7 +126,7 @@ public class UserDao implements CrudDao<User> {
 
     public boolean update(int id, User item) throws SQLException {
         boolean result = false;
-        String updateUserQuery = "update users set firstName = ?, secondName = ?, username = ?, pass = ?, birthDay = ?, eMail = ?, sex = ?, role = ? where id = ?";
+        String updateUserQuery = "update users set firstName = ?, secondName = ?, username = ?, birthDay = ?, sex = ?, role = ? where id = ?";
         DataSource dataSource = DataSource.getInstance();
         Connection connection = dataSource.getConnection();
         try {
@@ -134,12 +134,10 @@ public class UserDao implements CrudDao<User> {
             preparedStatement.setString(1, item.getFirstName());
             preparedStatement.setString(2, item.getSecondName());
             preparedStatement.setString(3, item.getUsername());
-            preparedStatement.setString(4, item.getPassword());
-            preparedStatement.setDate(5, Date.valueOf(item.getBirthDay()));
-            preparedStatement.setString(6, item.geteMail());
-            preparedStatement.setString(7, item.getSex().name());
-            preparedStatement.setString(8, item.getRole().name());
-            preparedStatement.setInt(9, id);
+            preparedStatement.setDate(4, Date.valueOf(item.getBirthDay()));
+            preparedStatement.setString(5, item.getSex().name());
+            preparedStatement.setString(6, item.getRole().name());
+            preparedStatement.setInt(7, id);
             result = preparedStatement.execute();
         } catch (SQLException e) {
             e.printStackTrace();

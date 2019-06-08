@@ -1,6 +1,7 @@
 package com.fakecinema.dto;
 
 import com.fakecinema.dao.UserDao;
+import com.fakecinema.model.Role;
 import com.fakecinema.model.User;
 
 import java.sql.SQLException;
@@ -12,27 +13,23 @@ public class LoginDto {
 
     private String username;
     private String password;
+    private Role role;
 
-    public LoginDto () {}
-
-    public LoginDto (String username, String password) {
+    public LoginDto (String username, String password, Role role) {
         this.username = username;
         this.password = password;
-    }
-
-    public LoginDto getByUsername (String username) {
-        LoginDto loginDto = null;
-        UserDao userDao = new UserDao();
-        try {
-            User user = userDao.getByUsername(username);
-            loginDto = new LoginDto(user.getUsername(),user.getPassword());
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return loginDto;
+        this.role = role;
     }
 
     public String getPassword() {
         return password;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public Role getRole() {
+        return role;
     }
 }

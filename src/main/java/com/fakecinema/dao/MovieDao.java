@@ -88,6 +88,7 @@ public class MovieDao implements CrudDao<Movie> {
             preparedStatement.setString(1, movie.getTitle());
             preparedStatement.setString(2, movie.getDuration());
             preparedStatement.setString(3, movie.getDescription());
+            preparedStatement.setInt(4, id);
             result = preparedStatement.execute();
         } catch (SQLException e) {
             e.printStackTrace();

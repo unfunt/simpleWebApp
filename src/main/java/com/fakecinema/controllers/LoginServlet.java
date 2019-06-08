@@ -2,6 +2,7 @@ package com.fakecinema.controllers;
 
 import com.fakecinema.dto.LoginDto;
 import com.fakecinema.helper.Hash;
+import com.fakecinema.services.UserService;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -20,12 +21,14 @@ public class LoginServlet extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String login = req.getParameter("login");
         String password = req.getParameter("password");
-        LoginDto loginDto = (new LoginDto()).getByUsername(login);
+        UserService userService = UserService.getInstance();
+        LoginDto loginDto = userService.getByUsername(login);
         if (Hash.hashPass(password).equals(loginDto.getPassword())) {
-            req.setAttribute("LoggedAs", login);
-            req.getRequestDispatcher("/").forward(req, resp);
+            req.getSession().setAttribute("LoggedAs", login);
+            req.getSession().setAttribute("UserRole", loginDto.getRole());
+            resp.sendRedirect(req.getContextPath() + "/admin");
         } else {
-            req.setAttribute("LoggedAs", null);
+            req.getRequestDispatcher("/jsp/common/loginError.jsp").forward(req, resp);
         }
     }
 
